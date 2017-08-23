@@ -1,0 +1,274 @@
+= Line Documents
+
+A _line document_ describes a single railway line.
+
+
+== Attributes
+
+In addition to the atributes common to all documents, line document have
+the following attributes.
+
+
+.`label`
+[role="attribute"]
+[[line.label]]
+--
+The `label` line attribute is used to attach a number of optional
+labels to the line. Labels can be used to describe general attributes of
+a line or specific uses that are not necessarily reflected in other
+attributes.
+
+The attribute is a list of enum. The following values are currently
+defined:
+
+`connection`:: The line is a short connection between two other lines.
+`freight`:: The line is a dedicated freight line. This value should be
+  used to distinguish specific lines where multiple lines run in parallel.
+`port`:: The line connects a harbour or port.
+
+Additional values can by defined for each country. See the ‘Line Labels’
+section of the country description for these.
+
+The `label` attribute is optional. If it is missing, an empty list of
+labels is used.
+--
+
+
+.`events`
+[role="attribute"]
+[[line.events]]
+--
+The `events` line attribute contains a list of events regarding the line.
+These events describe the history of the line. For more information, see
+<<line.event,Line Events>>.
+
+The `events` line attribute is mandatory.
+--
+
+
+.`points`
+[role="attribute"]
+[[line.points]]
+--
+The `points` line attribute lists all past and present points along the
+route of the line in order. If it is non-empty list of strings, each
+giving the key of a point document.
+
+The `points` line attribute is mandatory.
+--
+
+
+[[line.event]]
+== Line Events
+
+Line events are mappings that are part of the `events` line attribute
+list. Each event references a point in time when something happened to the
+line. For lines, events can refer to one or more sections of the line in
+addition to a point in time.
+
+Events typically refer to either a source or a document that provides the
+source of the information. If information regarding the same event is
+taken from different sources, there should be different events, so that
+information can be related to its source.
+
+
+=== Data About The Event Itself
+
+
+.`date`
+[role="attribute"]
+[[line.event.date]]
+--
+The `date` line event attribute specifies the date at which the event
+happened. It contains a string with a [date] specification or a null
+value. The latter represents an unspecified date, typically meaning that
+the data given through the other attributes is the oldest data available.
+The sources given should be considered when deciding what to do with the
+information, ie., whether to assume a value is indeed the initial value
+for an attribute or if their may have been other values before.
+
+The `date` line event attribute is mandatory for each event.
+
+If more than one date for an event is mentioned in sources, the
+`alternative` line event attribute can be used to state these alternative
+dates. The most likely date from the available alternatives should be
+chosen as the value for the `data` event.
+--
+
+
+.`sections`
+[role="attribute"]
+[[line.event.sections]]
+--
+The `sections` line event attribute specifies the sections of the line for
+which the event is valid. It is a list of mappings, each consisting of an
+optional `start` and `end` attribute containing a string with the key of a
+point document where the section starts or ends, respectively. If a
+`start` attribute is missing, the section begins at the beginning of the
+line, ie., the first point in the `points` line attribute. If an `end`
+attribute is missing, the sections ends at the end of the line, ie., the
+last point in the `points` line attribute. Any point referenced by either
+attribute must appear in the `points` line attribute.
+
+If there would be exactly one element in the `sections` list, the `start`
+and `end` attributes of that element can also be listed in the event
+directly, ie., as `start` and `end` line event attributes. In this case,
+there must be no `sections` line event attribute. Conversely, if there is
+a `sections` line event attribute, there must be no `start` or `end` line
+event attributes.
+
+The `sections`, `start`, and `end` attributes are optional. If none of
+them are present, the event is valid for the entire line.
+--
+
+
+.`start`
+[role="attribute"]
+[[line.event.start]]
+--
+The `start` line event attribute specifies the beginning of the sole
+section of the line to which this event applies. See the
+<<line.event.sections,`sections`>> attribute for more information.
+
+The `start` attribute must not be present if a `sections` attribute is
+present.
+--
+
+
+
+.`end`
+[role="attribute"]
+[[line.event.start]]
+--
+The `end` line event attribute specifies the end of the sole
+section of the line to which this event applies. See the
+<<line.event.sections,`sections`>> attribute for more information.
+
+The `start` attribute must not be present if a `sections` attribute is
+present.
+--
+
+
+.`document`
+[role="attribute"]
+[[line.event.document]]
+--
+The `document` line attribute provides references to those sources that
+provide the event itself. For instance, an event changing the `category`
+of a line could reference the official document of the operator or
+regulator declaring the change in category.
+
+The attribute contains a string or a list of strings, each containing the
+key of a source document. The attribute is optional.
+--
+
+
+.`source`
+[role="attribute"]
+[[line.event.source]]
+--
+The `source` line attribute provides a reference or references to source
+documents that provided the information given. The attribute contains a
+string or a list of strings each containing the key of a source document.
+
+If the event also contains a `document` attribute, then the `source`
+attribute refers to where the reference to this document was found.
+
+While this attribute is optional, each event should provide information
+about the sources of the data it includes so as to allow users to decide
+for themselves whether to trust the data or not. It is indeed optional
+when a `document` attribute is present, but should still be present if the
+reference to the document has gained via a cross-reference rather than
+browsing to the document directly.
+--
+
+
+.`alternative`
+[role="attribute"]
+[[line.event.alternative]]
+--
+The `alternative` line event attribute contains alternative dates for an
+event. It consists of a list of mappings, each containing a `date`
+attribute and optional `source` and `document` attributes. Their meaning
+is the same as that of the line event attributes by the same name.
+
+The `alternative` line event attribute is optional. If it is present it must
+not contain an empty list.
+--
+
+
+.`basis`
+[role="attribute"]
+[[line.event.basis]]
+--
+The `basis` line event attribute offers a way to provide the
+legal basis for a fact. For instance, the attribute could give the
+contract for a change of ownership.
+
+The attribute contains a list of mappings, each containing the following
+optional attributes which have the same meaning as the line event
+attribute with the same name: <<line.event.date,`date`>>,
+<<line.event.document,`document`>>, <<line.event.source,`source`>>,
+<<line.event.contract,`contract`>>, <<line.event.note,`note`>>,
+<<line.event.treaty,`treaty`>>.
+
+The `basis` line event attribute is optional. If present, it must not
+contain an empty list.
+--
+
+
+=== Things That Happened at the Event
+
+.`concession`
+[role="attribute"]
+[[line.event.concession]]
+--
+The `concession` line event attribute signals that a concession for
+construction and operation of the line has been approved by the responsible
+authoritites. The specific legal meanings of the term varies greatly in
+different jurisdictions and even over time. A discussion of its meaning
+can be found in the country descriptions.
+
+The `concession` line event contains a mapping with the three optional
+attributes: `by`, `for`, and `until`.
+
+[[line.event.concession.by]]
+The `by` concession attribute provides the organizations that have granted
+the permission. It contains a string or a list of strings each containing
+the key of an organization document. Typically, the organizations in
+question are countries, states, or local authorities.
+
+More than one entry should only be given when the concession has indeed
+been granted by multiple authorities through the same document. Otherwise,
+there should be separate events. These events should also be as specific
+as possible with regards to the sections of the line for which the
+authorities are responsible.
+
+[[line.event.concession.for]]
+The `for` concession attribute provides the organizations that have been
+granted the permission, that is, the organizations that are now allowed to
+construct and operate the railway line. The attribute should contain a
+string or list of string containing the key of an organization document.
+
+[[line.event.concession.until]]
+The `until` concession attribute states the date until which the
+concession will be valid. It contains a string with a date.
+--
+
+
+=== Line Properties Changed at the Event
+
+Each line has a number of properties that, since they can change over time,
+are modified through events. Since events may only apply to sections of a
+line, the values of the properties can also be different for sections of
+the line.
+
+.`category`
+[role="attribute"]
+[[line.event.category]]
+--
+A line’s category describes its legal or operational category. The attribute
+contains a list of enums. As legal foundations differ per country, values for
+the enum are defined on a per-country bases. Please refer to the ‘Line
+Categories’ section of the country descriptions for details.
+

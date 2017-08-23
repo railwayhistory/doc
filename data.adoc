@@ -1,0 +1,21 @@
+// The Railway History Database: The Data
+//
+// To build: asciidoctor -D target data.adoc
+= The Railway History Database: The Data
+Martin Hoffmann <hn@nvnc.de>
+:description: This document describes the format, structure, and meaning of the data collected in the Railway History Database
+:doctype: article
+:toc: left
+:toclevels: 2
+:includedir: src
+:stylesheet: rwh.css
+
+:leveloffset: +1
+include::{includedir}/data/intro.adoc[]
+
+include::{includedir}/data/types.adoc[]
+
+include::{includedir}/data/documents.adoc[]
+
+include::{includedir}/data/lines.adoc[]
+

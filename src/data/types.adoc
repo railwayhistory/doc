@@ -1,0 +1,118 @@
+= Data Structure
+
+The Railway History Database is collection _documents_ with structured data.
+This chapter describes the structure and the data types used in this
+structure.
+
+
+== Data Types
+
+=== Simple Types
+
+[[type.string]]
+==== Strings
+
+_Strings_ are a sequence of Unicode characters. While they are often used to
+represent free test, they can also be used as structured strings where the
+content of the string encoded some specific value. See below for currently
+defined types of structured strings.
+
+
+[[type.integer]]
+==== Integers
+
+_Integers_ are whole numbers.
+
+
+[[type.float]]
+==== Floating-point Numbers
+
+Floating-point Numbers, also referred to simply as _floats,_ are real numbers
+encoded as a binary fraction.
+
+
+[[type.boolean]]
+==== Boolean
+
+A _boolean_ value can either be true or false.
+
+
+[[type.null]]
+==== Null
+
+This type represents the absence of information.
+
+
+=== Composite Types
+
+[[type.list]]
+==== List
+
+A _list_ is an ordered sequence of value of some other, specific type. That is,
+each value in the list is of the same type.
+
+
+[[type.mapping]]
+==== Mapping
+
+A _mapping_ is a collection of attributes. Each attribute has a name and a
+value. The name is a sequence of ASCII characters. The value can be of any
+type. Within a mapping, each name can appear at most once.
+
+For each specific occurence of a mapping, the set of attributes is
+well-defined. Attributes can be mandatory, in which case an atribute by a
+given name has to appear in the mapping, or optional, in which case an
+attribute by that name may appear in the mapping. Additional rules can be
+given, for instance that only one of a set of names may appear.
+
+Each allowed attribute has a well-defined type.
+
+
+[[type.nullable]]
+==== Nullable
+
+A _nullable_ value is simply one that either is of a given type or of the
+<<type.null,null>> type.
+
+
+=== Structured Strings
+
+[[type.enum]]
+==== Enum
+
+An _enum,_ short for enumeration, is a <<type.string,string>> value that has
+to be chosen from a set of predefined options. Each of these option carries a
+specific meaning.
+
+For each occurence of an enum, the set of allowed strings and their meaning
+has to be defined.
+
+
+[[type.date]]
+==== Date
+
+A _date_ is a date encoded as a <<type.string,string>>. Its format is based on
+the date format from ISO 8601 but has been modified to fit the purposes of the
+project.
+
+A date string consists of up to three parts: an optional precision marker,
+followed by the date core, followed by an optional doubt marker.
+
+The precision marker is a one letter indicator modifying the core date. A
+value of `c` for ‘circa’ means the data is not precisely known. A value `b`
+means ‘before’ and indicates that the event happened at some unknown date
+before the given core date. Finally, a value of `a` for ‘after’ indicates that
+the event happend at some date after the given date.
+
+The core date consists of the year given as four digits, optionally followed
+by a dash and a two-digit month with Januar being `-01`, which in turn is
+optionally followed by a two-digit day of the month with the first day of the
+month being `-01`.
+
+If the day of the month is missing, the event happened at some day of the
+given month of the given year. If the month is missing, too, the event
+happened at the some day in the given year.
+
+The doubt marker, a single question mark `?`, indicates that their is an
+amount of uncertainty regarding the correctness of the date.
+

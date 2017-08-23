@@ -1,0 +1,37 @@
+= Line Attributes
+
+== Line Labels
+
+The following additional values for the <<line.label,`label` line
+attribute>> are defined for Germany:
+
+`de.S-Bahn`:: the line is dedicated for suburban or ‘S-Bahn’ use.
+
+
+== Line Categories
+
+The following values are defined for the <<line.event.category,`category`
+line event attribute>> for Germany:
+
+`de.Hauptbahn`:: a primary railway; formally, a line built and operated
+  according to the standards for _Hauptbahnen_ as laid out by the
+  _Eisenbahn-Bau- und Betriebsordnung_ (EBO, Regulations for the Construction
+  and Operation of Railways).
+`de.Nebenbahn`:: a secondary railway; formally, a line built and operated
+  according to the standards for _Nebenbahnen_ as laid out by the
+  aforementioned regulations or the _Eisenbahn-Bau- und Betriebsordnung für
+  Schmalspurbahnen_ (ESBO, Regulations for the Construction and Operation of
+  Narrow-gauge Railways). 
+`de.Kleinbahn`:: a tertiary railway. Specific regulations existed to allow
+  cheaper construction and operation of railway lines with limited traffic
+  under differing names. Except for the state of Berlin, all such railways
+  have been re-classified as `de.Nebenbahn` in the 1950s.
+`de.Anschl`:: an industrial railway, short for _Anschlussbahn._ As such
+  railway lines are regulated by the states, different state laws exist.
+`de.Strab`:: a tram line; formally a line built and operated according to the
+  rules of the _Verordnung über den Bau und Betrieb der Straßenbahnen_
+  (BOStrab, Regulations for the Construction and Operation of Trams).
+`de.Bfgleis`:: a stretch of track that is assumed to be within station limits.
+  This category is often used for former lines with significantly diminished
+  traffic to allow for cheaper operation.
+

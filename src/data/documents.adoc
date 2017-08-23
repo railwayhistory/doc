@@ -1,0 +1,66 @@
+= Documents
+
+Everything that is described in the Railway History Database has a document
+assigned to it which collects all that is known about it. The things—or
+entities—described range from concrete things such as railway lines, stations,
+and companies, to more abstract descriptions such as the geometrical
+description of the route a line takes.
+
+Each document consists of a <<type.mapping,mapping>>. Each document has a
+_key,_ which is used to uniquely identify the document, and a _type,_ which
+specificies the kind of entity and with it which attributes are allowed in
+the mapping and what they mean.
+
+
+== Attribute Common to All Documents
+
+=== `key`
+[[doc.key]]
+
+The `key` document attribute contains the key of a document,
+a <<type.string,string>> uniquely identifying that document. A document’s
+must only consist of Unicode letters, digits, the hyphen-minus `-`, and the
+full stop `.`.
+
+The full stop is used to break the key into parts and introducing a
+hierarchy into document keys. The document type is repeated, for some types
+in abbreviated form, as the first part of the key, followed by a part
+consisting of the two-letter country code for the country the document
+relates to or `int` if the document relates to multiple countries, followed
+by additional parts describing the document within the country or the global
+space.
+
+
+=== `type`
+[[doc.type]]
+
+The `type` document attribute specifies the type of the document. It is an
+enum with one value defined for each known document type. See the
+description of the various types for their assigned value.
+
+
+=== `progress`
+[[doc.progress]]
+
+The `progress` document attribute specifies how far adding of data for this
+document has progressed. It’s value is an enum with one of the following
+values.
+
+`stub`::
+  The line has been added but no or only very limited data has been collected
+  yet. This most often happens if the document needs to be referenced by other
+  documents. While their are no hard-fast rule exist for when a document of a
+  specific type progresses beyond a stub, some hints are given with each type.
+
+`in-progress`::
+  Enough data has been added to lift the document beyond stub state but there
+  is still work to do.
+
+`complete`::
+  The data for the document is considered complete at the time of last edit.
+  Naturally, there may always surface information that has not yet been added.
+  As such, this value is to be treated with a grain of salt.
+
+The `progress` attribute is optional. If it is missing, a value of
+`in-progress` is assumed.
+
