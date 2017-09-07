@@ -1,0 +1,326 @@
+= Source Documents
+
+A _source document_ describes a single source.
+
+[[source.subtype]]
+== Source Types
+
+All information about a source is collected in a number of attributes. Which
+of these must, may, and must not be present in a specific document depends on
+the type of the source. The type is specified through the attribute
+<<source.subtype,`subtype`>>.
+
+These types are inspired by BibTex’s entry types. However, they have been
+adjusted and additional types have been added to better fit the requirements
+of the project.
+
+The `subtype` attribute is an <<type.enum,enum>> that can take any of the
+following values. If the attribute is missing, a value of
+<<source.subtype.misc,`misc`>> is assumed.
+
+
+[[source.subtype.article]]
+=== `article` – an article in a journal
+
+An article source references a complete article in a journal, book, or web
+site.
+
+
+[[source.subtype.book]]
+=== `book` - a book
+
+A book source references a published book.
+
+
+[[source.subtype.inarticle]]
+=== `inarticle` – a part of an article
+
+
+[[source.subtype.issue]]
+=== `issue` – an issue of a journal
+
+
+[[source.subtype.journal]]
+=== `journal` – a periodically published work
+
+
+[[source.subtype.map]]
+=== `map` – a map
+
+
+[[source.subtype.online]]
+=== `online` – a web site
+
+For individual articles on a web site, use `article` and refer to the site
+via `collection`.
+
+
+[[source.subtype.series]]
+=== `series` – a series of other sources
+
+Can be `book`s or `online`, for periodicals, see `journal`.
+
+
+[[source.subtype.volume]]
+=== `volume` – a collection of issues of a journal
+
+This is not to be used for a volume in a series of books. Simply use `book`
+for these and refer to the series via `collection`.
+
+
+[[source.subtype.misc]]
+=== `misc` – placeholder
+
+A misc source references a source that hasn’t been properly processed yet.
+It is typically employed when a reference to a source in found in some other
+source in a way that didn’t allow creating of a proper source entry.
+
+A misc source requires either a <<source.title,`title`>> or, more likely,
+<<source.designation,`designation`>> attribute. It may optionally have a
+<<source.note,`note`>> attribute.
+
+
+== Type-dependent Source Attributes
+
+The following source document attributes must, may, or must not be present
+in a source document depending on its sub-type. See the sub-type descriptions
+above for the rules.
+
+
+.`author`
+[role="attribute"]
+[[source.author]]
+--
+A source’s author. This attribute contains the key of an organization
+document of sub-type `person` or a list of such keys representing the
+authors of the source.
+--
+
+
+.`collection`
+[role="attribute"]
+[[source.collection]]
+--
+The collection the source appeared in. If present, The attribute contains the
+key of source document this source appeared in.
+--
+
+
+.`date`
+[role="attribute"]
+[[source.date]]
+--
+The publishing date of the source. The attribute, if present contains a
+<<type.date,string representation of a date>>.
+
+The `date` attribute is only allowed for sources that are indeed published as
+a whole. All sources that appear in other sources, such as `article`s, will
+take their publishing date from their collection source.
+--
+
+
+.`designation`
+[role="attribute"]
+[[source.designation]]
+--
+A text describing the source’s content for sources that don’t have a
+<<source.title,`title`>>. A source can either have a title or a designation.
+In the latter case, the designation is used wherever a title would be used.
+--
+
+
+.`digital`
+[role="attribute"]
+[[source.digital]]
+--
+The `digital` source attribute provides URIs for digital copies of a source
+that wasn’t digital originally. The attribute contains a string or a list of
+strings each providing a valid URI.
+--
+
+
+.`edition`
+[role="attribute"]
+[[source.edition]]
+--
+The `edition` source attribute can be used to provide a designator for a
+source that has been published in different versions. The attribute contains
+a string.
+--
+
+
+.`editor`
+[role="attribute"]
+[[source.editor]]
+--
+The `editor` source attribute lists the editors of a source. It can be used
+instead of the <<source.author,`author`>> or
+<<source.organization,`organization`>> attribute to provide the people
+responsible for a source.
+
+The attribute is a string or a sequence of strings, each containing the key
+of an <<organization>> document of <<organization.subtype,sub-type>>
+`person`.
+--
+
+
+.`isbn`
+[role="attribute"]
+[[source.isbn]]
+--
+The `isbn` source attribute contains a published source’s ISBN number as a
+string.
+--
+
+
+.`number`
+[role="attribute"]
+[[source.number]]
+--
+The `number` source attribute provides the designation of an individual
+`issue` of a `journal`.
+--
+
+
+.`organization`
+[role="attribute"]
+[[source.organization]]
+--
+The `organization` source attribute list the organizations that authored a
+source. It can be used instead of the <<source.title,`title`>> or
+<<source.editor,`editor`>> attributes when a source has been authored
+anonymously on behalf of organizations.
+
+The attributes takes a string or a list of strings, each the key of an
+<<organization>> document.
+--
+
+
+.`pages`
+[role="attribute"]
+[[source.pages]]
+--
+The `pages` source attribute provides the numbers of the pages containing the
+source. For an individually published source, such as a book or an issue,
+this is the full range of pages included in the source. For sources that are
+part of another source, this is the sub-set of pages the source appears on.
+
+The attribute contains this information encoded in a string. It consists of
+a comma-delimited sequence of page ranges. Each page range is either a single
+page number, two page numbers delimited by a hyphen denoting the first and
+last page, or a page number followed by a hyphen denoting an open range
+starting at the given page. Page numbers are any sequence of letters or
+digits. White-space is permitted between page numbers and delimiters.
+--
+
+
+.`publisher`
+[role="attribute"]
+[[source.publisher]]
+--
+The `publisher` source attribute list the publishers of a source. It contains
+a string or a sequence of strings, each containing the key of an
+<<organization>> document representing the publishing company.
+--
+
+
+.`revision`
+[role="attribute"]
+[[source.revision]]
+--
+The `revision` source attribute is used to refer to a particular version of
+a source that can change. This is in particular used for
+<<source.subtype.online,`online`>> sources. It contains a string with
+whatever information is necessary to uniquely identify the revision.
+--
+
+
+.`short_title`
+[role="attribute"]
+[[source.short_title]]
+--
+The `short_title` source attribute provides a abbreviated designation for
+the source. It is a string.
+--
+
+
+.`title`
+[role="attribute"]
+[[source.title]]
+--
+The `title` source attribute contains a source’s title as a string. For
+sources that don’t have a title, use the <<source.designation,`designation`>>
+attribute to provide a text standing in for the title.
+--
+
+
+.`url`
+[role="attribute"]
+[[source.url]]
+--
+The `url` source attribute contains the location of an online document as an
+URI. For sources that are not naturally online but are available in a digital
+form, the `url` attribute should be used if there is an authoritative location
+for that digital form. Otherwise, the <<source.digital,`digital`>> attribute
+should be used instead.
+--
+
+
+.`volume`
+[role="attribute"]
+[[source.volume]]
+--
+The `volume` source attribute contains the designation of a
+<<source.subtype.volume,`volume`>> source that identifies it within its
+series. It is a string.
+--
+
+
+== Additional Source Attributes
+
+The following attributes may be present in any source document, independently
+of its subtype.
+
+.`attribution`
+[role="attribute"]
+[[source.attribution]]
+--
+The `attribution` source attribute can be used to provide the attribution
+for information gathered from the source if its license requires it. The
+attribute is simple free text.
+--
+
+
+.`crossref`
+[role="attribute"]
+[[source.crossref]]
+--
+The `crossref` source attribute lists cross-references to other source
+documents. Typically, these are mentioned in the source.
+
+The attribute is a string or a list of strings, each containing the key of
+a source document.
+--
+
+
+.`note`
+[role="attribute"]
+[[source.note]]
+--
+The `note` source attribute can be used to add a note to a source document.
+The attribute is a <<types.langstring,multi-language string>>.
+--
+
+
+.`regards`
+[role="attribute"]
+[[source.regards]]
+--
+The `regards` source attribute lists the documents that the source contains
+information for. It contains a string or a sequence of strings each
+containing the key of some other document of any type.
+
+The attribute should be ommited for sources that regard a large number of
+documents such as directories.
+--
+

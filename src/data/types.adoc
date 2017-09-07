@@ -116,3 +116,27 @@ happened at the some day in the given year.
 The doubt marker, a single question mark `?`, indicates that their is an
 amount of uncertainty regarding the correctness of the date.
 
+
+=== Localized Strings
+
+In some cases, a string should have a different value for different languages
+or for different countries. For these cases, there are three types of
+localized strings. In each case, the value is a mapping where the keys are
+codes representing a language or a country, and the values are strings.
+
+
+[[type.countrystring]]
+==== Mulit-country Strings
+
+In _multi-country strings,_ the keys for the mapping are country codes. These
+are derived from the ISO 3166-1 alpha-2 codes, that is, they are always
+two-letter codes. We use a few extra codes that have been deleted from the
+offical set to represent countries that have gone out of existance since the
+early 1800s.
+
+
+[[type.langstring]]
+==== Multi-language Strings
+
+In _multi-language strings,_ the keys for the mapping are language codes. We
+use ISO 639-3 codes, that is, three-letter codes.

@@ -271,4 +271,4 @@ A line’s category describes its legal or operational category. The attribute
 contains a list of enums. As legal foundations differ per country, values for
 the enum are defined on a per-country bases. Please refer to the ‘Line
 Categories’ section of the country descriptions for details.
-
+--

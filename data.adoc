@@ -19,3 +19,5 @@ include::{includedir}/data/documents.adoc[]
 
 include::{includedir}/data/lines.adoc[]
 
+include::{includedir}/data/sources.adoc[]
+
